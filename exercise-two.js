@@ -190,17 +190,39 @@ function problemD () {
   // ???
     var arr = [];
     for(var i = 0; i < filenames.length; i++) {
-        var p = promisifiedReadFile(filenames[i]);
+        var p = promisifiedReadFile(filenames[i])
+            .catch(function(err){
+                return err;
+            });
         arr.push(p);
     }
-
-    Promise.all(arr).then(function(values) {
-        values.forEach(blue), function (reason) {
-            console.log(reason);
-        },
+    var count = 0;
+    Promise.each(arr, function(values){
+        if(values instanceof Error){
+            count++;
+            magenta(values);
+        }else{
+            count++;
+            blue(values);
+        }
+        if (count == arr.length) {
             console.log('done');
+        }
     });
 
+
+
+    // Promise.all(arr).then(function(values) {
+    //     values.forEach(function(values){
+    //         if(values instanceof Error){
+    //             magenta(values);
+    //         }else{
+    //             blue(values);
+    //         }
+    //     });
+    //
+    //     console.log('done');
+    // });
 }
 
 function problemE () {
