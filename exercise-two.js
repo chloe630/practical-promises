@@ -197,16 +197,18 @@ function problemD () {
         arr.push(p);
     }
     var count = 0;
+    var breaker = false;
+
     Promise.each(arr, function(values){
         if(values instanceof Error){
-            count++;
+            breaker = true;
             magenta(values);
-        }else{
-            count++;
-            blue(values);
-        }
-        if (count == arr.length) {
             console.log('done');
+
+        }else{
+            if (breaker) {
+                blue(values);
+            }
         }
     });
 
